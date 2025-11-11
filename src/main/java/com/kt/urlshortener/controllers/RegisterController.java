@@ -4,6 +4,8 @@ import com.kt.urlshortener.payloads.RegisterRequestPayload;
 import com.kt.urlshortener.services.AuthService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.validator.routines.EmailValidator;
+import org.apache.coyote.BadRequestException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -19,7 +21,11 @@ public class RegisterController {
     private final AuthService authService;
 
     @PostMapping
-    public ResponseEntity<String> register(@RequestBody @Valid RegisterRequestPayload requestPayload){
+    public ResponseEntity<String> register(@RequestBody @Valid RegisterRequestPayload requestPayload) throws BadRequestException {
+        if(!EmailValidator.getInstance().isValid(requestPayload.getUsername())){
+            throw new BadRequestException("username format isn't email.");
+        }
+
         String result = authService.register(requestPayload.getUsername(),requestPayload.getPassword());
         return ResponseEntity.ok(result);
     }

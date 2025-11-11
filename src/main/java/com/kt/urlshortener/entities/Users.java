@@ -38,9 +38,10 @@ public class Users {
     @Column(name = "updated_at")
     private Instant updatedAt;
 
-    public Users(String username, String password, String email) {
+    public Users(String username, String password, String email, Instant createdAt) {
         this.username = username;
         this.password = password;
         this.email = email;
+        this.createdAt = createdAt;
     }
 }

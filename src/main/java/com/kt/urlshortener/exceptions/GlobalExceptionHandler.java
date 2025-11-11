@@ -4,9 +4,11 @@ import jakarta.persistence.NoResultException;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.coyote.BadRequestException;
 import org.hibernate.FetchNotFoundException;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -24,6 +26,18 @@ public class GlobalExceptionHandler {
                 .body("Generate Short URL error: " + ex.getMessage());
     }
 
+    @ExceptionHandler(DataIntegrityViolationException.class)
+    public ResponseEntity<String> handleDuplicateKeyException(DataIntegrityViolationException ex) {
+        if(ex.getMessage().contains("duplicate key")){
+            log.error("Exception Duplicate Key: {}", ex.getMessage(), ex);
+            return ResponseEntity.status(HttpStatus.CONFLICT)
+                    .body("error duplicate data");
+        }else{
+            log.error("Exception Occurred error : {}", ex.getMessage(), ex);
+            throw new RuntimeException(ex);
+        }
+    }
+
     @ExceptionHandler(NoResultException.class)
     public ResponseEntity<String> handleNotFoundException(NoResultException ex){
         log.error("Exception no result : {}", ex.getMessage(), ex);
@@ -35,7 +49,7 @@ public class GlobalExceptionHandler {
     public ResponseEntity<String> handleBadRequestException(BadRequestException ex){
         log.error("Exception bad request : {}",ex.getMessage(),ex);
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                .body("bad request.");
+                .body("bad request : " + ex.getMessage());
     }
 
     @ExceptionHandler(UsernameNotFoundException.class)
@@ -45,11 +59,18 @@ public class GlobalExceptionHandler {
                 .body("User not found.");
     }
 
+    @ExceptionHandler(AuthenticationCredentialsNotFoundException.class)
+    public ResponseEntity<String> handleAuthenticationCredentialsNotFoundException(AuthenticationCredentialsNotFoundException ex){
+        log.error("Exception bad credential : {}",ex.getMessage(),ex);
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                .body("credential not found.");
+    }
+
     @ExceptionHandler(BadCredentialsException.class)
     public ResponseEntity<String> handleBadCredential(BadCredentialsException ex){
-        log.error("Exception unauthorize : {}",ex.getMessage(),ex);
+        log.error("Exception password not natch : {}",ex.getMessage(),ex);
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-                .body("unauthorize.");
+                .body("username/password not correct.");
     }
 
 

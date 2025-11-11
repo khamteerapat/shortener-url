@@ -1,8 +1,8 @@
-package com.kt.urlshortener.repositorys.impl;
+package com.kt.urlshortener.repositories.impl;
 
 import com.kt.urlshortener.entities.LinksMapping;
-import com.kt.urlshortener.repositorys.LinksMappingJpaRepository;
-import com.kt.urlshortener.repositorys.LinksMappingRepository;
+import com.kt.urlshortener.repositories.LinksMappingJpaRepository;
+import com.kt.urlshortener.repositories.LinksMappingRepository;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.transaction.Transactional;
@@ -13,7 +13,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
 import java.util.UUID;
 
 @Repository

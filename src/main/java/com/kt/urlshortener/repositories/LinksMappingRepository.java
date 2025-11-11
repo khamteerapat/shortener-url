@@ -1,10 +1,9 @@
-package com.kt.urlshortener.repositorys;
+package com.kt.urlshortener.repositories;
 
 import com.kt.urlshortener.entities.LinksMapping;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Sort;
 
-import java.util.List;
 import java.util.UUID;
 
 public interface LinksMappingRepository  {

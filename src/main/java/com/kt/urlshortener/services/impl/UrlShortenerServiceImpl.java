@@ -2,8 +2,10 @@ package com.kt.urlshortener.services.impl;
 
 import com.kt.urlshortener.entities.LinksMapping;
 import com.kt.urlshortener.exceptions.GenerateShortUrlException;
-import com.kt.urlshortener.repositorys.LinksMappingRepository;
+import com.kt.urlshortener.payloads.UserPrincipal;
+import com.kt.urlshortener.repositories.LinksMappingRepository;
 import com.kt.urlshortener.services.UrlShortenerService;
+import com.kt.urlshortener.utils.ApplicationContextUtils;
 import com.kt.urlshortener.utils.Base62Utils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -24,13 +26,14 @@ public class UrlShortenerServiceImpl implements UrlShortenerService {
 
     @Override
     public String generateShortUrl(String fullUrl) {
+        UserPrincipal userPrincipal = ApplicationContextUtils.getUserInfo();
         for(int i = 0; i < MAX_RETRY ; i++){
             String shortCode = Base62Utils.generateShortCode(MAX_SHORT_CODE );
             try{
                 LinksMapping linksMapping = new LinksMapping(
                         shortCode,
                         fullUrl,
-                        "",
+                        userPrincipal.getUsername(),
                         Instant.now()
                 );
                 linksMappingRepository.save(linksMapping);

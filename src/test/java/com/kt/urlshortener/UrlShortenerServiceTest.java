@@ -2,8 +2,7 @@ package com.kt.urlshortener;
 
 import com.kt.urlshortener.entities.LinksMapping;
 import com.kt.urlshortener.exceptions.GenerateShortUrlException;
-import com.kt.urlshortener.repositorys.LinksMappingRepository;
-import com.kt.urlshortener.services.UrlShortenerService;
+import com.kt.urlshortener.repositories.LinksMappingRepository;
 import com.kt.urlshortener.services.impl.UrlShortenerServiceImpl;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

@@ -3,12 +3,14 @@ package com.kt.urlshortener.services.impl;
 import com.kt.urlshortener.configs.JwtTokenProvider;
 import com.kt.urlshortener.entities.Users;
 import com.kt.urlshortener.exceptions.NotFoundUserException;
-import com.kt.urlshortener.repositorys.UsersRepository;
+import com.kt.urlshortener.repositories.UsersRepository;
 import com.kt.urlshortener.services.AuthService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.time.Instant;
 
 @Service
 @RequiredArgsConstructor
@@ -26,10 +28,11 @@ public class AuthServiceImpl implements AuthService {
         Users users = new Users(
                 username,
                 encryptPassword,
-                username
+                username,
+                Instant.now()
         );
         usersRepository.save(users);
-        return LOGIN_SUCCESS;
+        return REGISTER_SUCCESS;
     }
 
     @Override

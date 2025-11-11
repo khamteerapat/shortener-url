@@ -1,4 +1,4 @@
-package com.kt.urlshortener.repositorys;
+package com.kt.urlshortener.repositories;
 
 import com.kt.urlshortener.entities.Users;
 import org.springframework.data.jpa.repository.JpaRepository;
