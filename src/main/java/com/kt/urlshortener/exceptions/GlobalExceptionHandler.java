@@ -7,6 +7,8 @@ import org.hibernate.FetchNotFoundException;
 import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
@@ -36,10 +38,27 @@ public class GlobalExceptionHandler {
                 .body("bad request.");
     }
 
+    @ExceptionHandler(UsernameNotFoundException.class)
+    public ResponseEntity<String> handleUserNotFound(UsernameNotFoundException ex){
+        log.error("Exception User not found : {}",ex.getMessage(),ex);
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                .body("User not found.");
+    }
+
+    @ExceptionHandler(BadCredentialsException.class)
+    public ResponseEntity<String> handleBadCredential(BadCredentialsException ex){
+        log.error("Exception unauthorize : {}",ex.getMessage(),ex);
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                .body("unauthorize.");
+    }
+
+
     @ExceptionHandler(Exception.class)
     public ResponseEntity<String> handleException(Exception ex) {
         log.error("Exception occurred: {}", ex.getMessage(), ex);
         return ResponseEntity.internalServerError()
                 .body("Unexpected error occurred.");
     }
+
+
 }

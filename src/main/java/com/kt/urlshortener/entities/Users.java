@@ -2,15 +2,19 @@ package com.kt.urlshortener.entities;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.time.Instant;
 import java.util.UUID;
 
-@Entity
-@Table(name = "users")
 @AllArgsConstructor
 @NoArgsConstructor
+@Getter
+@Setter
+@Entity
+@Table(name = "users")
 public class Users {
     @Id
     @GeneratedValue
@@ -33,4 +37,10 @@ public class Users {
 
     @Column(name = "updated_at")
     private Instant updatedAt;
+
+    public Users(String username, String password, String email) {
+        this.username = username;
+        this.password = password;
+        this.email = email;
+    }
 }
