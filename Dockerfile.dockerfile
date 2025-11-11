@@ -21,4 +21,4 @@ ENV JAVA_OPTS="-XX:+UseContainerSupport -XX:MaxRAMPercentage=75"
 
 EXPOSE 8080
 
-ENTRYPOINT ["sh", "-c", "java $JAVA_OPTS -jar app.jar --spring.profiles.active=${SPRING_PROFILE}"]
+ENTRYPOINT ["sh", "-c", "java $JAVA_OPTS -jar app.jar"]
