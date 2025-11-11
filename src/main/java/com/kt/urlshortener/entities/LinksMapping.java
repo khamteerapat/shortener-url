@@ -1,12 +1,18 @@
 package com.kt.urlshortener.entities;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.time.Instant;
 import java.util.UUID;
 
+@Getter
 @Entity
 @Table(name = "links_mapping")
+@AllArgsConstructor
+@NoArgsConstructor
 public class LinksMapping {
     @Id
     @GeneratedValue
