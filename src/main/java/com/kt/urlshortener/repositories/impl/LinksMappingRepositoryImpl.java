@@ -4,6 +4,7 @@ import com.kt.urlshortener.entities.LinksMapping;
 import com.kt.urlshortener.repositories.LinksMappingJpaRepository;
 import com.kt.urlshortener.repositories.LinksMappingRepository;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.NoResultException;
 import jakarta.persistence.PersistenceContext;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -34,9 +35,13 @@ public class LinksMappingRepositoryImpl implements LinksMappingRepository {
         String statement = """
                 select e.originalLink from LinksMapping e where e.shortCode = :shortCode
                 """;
-        return entityManager.createQuery(statement,String.class)
-                .setParameter("shortCode", shortCode)
-                .getSingleResult();
+        try {
+            return entityManager.createQuery(statement, String.class)
+                    .setParameter("shortCode", shortCode)
+                    .getSingleResult();
+        }catch (NoResultException ex){
+            return null;
+        }
     }
 
     @Override

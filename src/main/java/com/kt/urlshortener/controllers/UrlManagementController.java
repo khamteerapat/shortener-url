@@ -3,6 +3,7 @@ package com.kt.urlshortener.controllers;
 import com.kt.urlshortener.payloads.PageResponse;
 import com.kt.urlshortener.payloads.UrlViewsResponsePayload;
 import com.kt.urlshortener.services.UrlManagementService;
+import jakarta.validation.constraints.Min;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
@@ -21,6 +22,9 @@ public class UrlManagementController {
             @RequestParam(name = "page",defaultValue = "1") Integer page,
             @RequestParam(name = "limit",defaultValue = "100") Integer limit,
             @RequestParam(name = "direction",defaultValue = "ASC") String direction){
+
+        if (page < 1 ) page = 1;
+        if (limit < 1) limit = 100;
         Sort.Direction filterDir = Sort.Direction.ASC;
         if(direction != null && direction.equals("DESC")) filterDir = Sort.Direction.DESC;
 

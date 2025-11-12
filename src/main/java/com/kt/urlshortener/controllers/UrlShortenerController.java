@@ -3,6 +3,7 @@ package com.kt.urlshortener.controllers;
 import com.kt.urlshortener.payloads.UrlShortenerRequestPayload;
 import com.kt.urlshortener.payloads.UrlShortenerResponsePayload;
 import com.kt.urlshortener.services.UrlShortenerService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,7 +19,7 @@ public class UrlShortenerController {
     private final UrlShortenerService urlShortenerService;
 
     @PostMapping
-    public ResponseEntity<UrlShortenerResponsePayload> shortenUrl(@RequestBody UrlShortenerRequestPayload requestPayload){
+    public ResponseEntity<UrlShortenerResponsePayload> shortenUrl(@RequestBody @Valid UrlShortenerRequestPayload requestPayload){
         String shortUrl = urlShortenerService.generateShortUrl(requestPayload.getOriginalUrl());
         return ResponseEntity.ok(new UrlShortenerResponsePayload(shortUrl));
     }

@@ -19,12 +19,15 @@ public class RedirectController {
     private final RedirectService redirectService;
 
     @GetMapping("/{shortCode}")
-    public ResponseEntity<Void> redirect(@PathVariable String shortCode) throws BadRequestException {
+    public ResponseEntity<String> redirect(@PathVariable String shortCode) throws BadRequestException {
         if(StringUtils.isEmpty(shortCode)){
             throw new BadRequestException("shortCode is null");
         }
 
+
         String originalUrl = redirectService.getOriginalUrlForRedirect(shortCode);
+
+        if(originalUrl == null) return ResponseEntity.status(HttpStatus.NOT_FOUND).body("url not found.");
 
         HttpHeaders headers = new HttpHeaders();
         headers.setLocation(URI.create(originalUrl));
