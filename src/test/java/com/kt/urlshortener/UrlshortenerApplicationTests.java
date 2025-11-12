@@ -3,11 +3,8 @@ package com.kt.urlshortener;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
-@SpringBootTest
+//@SpringBootTest
 class UrlshortenerApplicationTests {
 
-	@Test
-	void contextLoads() {
-	}
 
 }

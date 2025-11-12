@@ -10,7 +10,7 @@ services:
       - postgres
     environment:
       SPRING_PROFILES_ACTIVE: dev 
-      SPRING_DATASOURCE_URL: jdbc:postgresql://localhost:5432/urlshorten
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/urlshorten
       SPRING_DATASOURCE_USERNAME: admin
       SPRING_DATASOURCE_PASSWORD: P@ssw0rd
       TZ: Asia/Bangkok

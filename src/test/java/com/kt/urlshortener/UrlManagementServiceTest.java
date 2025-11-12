@@ -7,6 +7,8 @@ import com.kt.urlshortener.payloads.UserPrincipal;
 import com.kt.urlshortener.repositories.LinksMappingRepository;
 import com.kt.urlshortener.services.impl.UrlManagementServiceImpl;
 import com.kt.urlshortener.utils.ApplicationContextUtils;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -31,6 +33,21 @@ public class UrlManagementServiceTest {
     private LinksMappingRepository linksMappingRepository;
     @InjectMocks
     private UrlManagementServiceImpl urlManagementService;
+
+    private MockedStatic<ApplicationContextUtils> mockedStatic;
+    @BeforeEach
+    void setup() {
+        String username = "teerapat@hotmail.com";
+        UserPrincipal userPrincipal = new UserPrincipal(username, username);
+        mockedStatic = mockStatic(ApplicationContextUtils.class);
+        mockedStatic.when(ApplicationContextUtils::getUserInfo).thenReturn(userPrincipal);
+    }
+
+    @AfterEach
+    void tearDown() {
+        mockedStatic.close(); // ปิด static mock หลังแต่ละ test
+    }
+
 
     List<LinksMapping> mockLinksMappingList = List.of(
             new LinksMapping(
@@ -68,13 +85,9 @@ public class UrlManagementServiceTest {
         int page = 1;
         int limit = 10;
         Sort.Direction direction = Sort.Direction.ASC;
-        UserPrincipal userPrincipal = new UserPrincipal(username,username);
 
         Page<LinksMapping> mockpage = new PageImpl<>(mockLinksMappingList);
 
-        mockStatic(ApplicationContextUtils.class)
-                .when(ApplicationContextUtils::getUserInfo)
-                .thenReturn(userPrincipal);
         when(linksMappingRepository.getListByCreatedBy(username,page,limit,direction)).thenReturn(mockpage);
 
         PageResponse<UrlViewsResponsePayload> result = urlManagementService.getUrlListByCreatedBy(page,limit,direction);
@@ -83,6 +96,7 @@ public class UrlManagementServiceTest {
         assertEquals(mockpage.getTotalPages(), result.getTotalPages());
         assertEquals(mockpage.getTotalElements(), result.getTotalElements());
         assertEquals(3, result.getContent().size());
+
     }
 
     @Test
