@@ -644,7 +644,7 @@
 						"shorten"
 					]
 				},
-				"description": "Api สำหรับสร้าง Short Url\n\nRequire\n\n- original_url : ใส่ url ที่ต้องการ shorten และห้ามว่าง"
+				"description": "Api สำหรับสร้าง Short Url\n\nRequire\n\n- original_url : ใส่ url ที่ต้องการ shorten ให้ถูกรูปแบบ และห้ามว่าง"
 			},
 			"response": [
 				{
@@ -897,6 +897,87 @@
 					],
 					"cookie": [],
 					"body": "originalUrl: url can't be null"
+				},
+				{
+					"name": "รูปแบบ url ไม่ถูกต้อง",
+					"originalRequest": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "x-authorization",
+								"value": "{{authToken}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"original_url\":\"htt//wwwfacebook.com/p/%E0%B8%99%E0%B9%89%E0%B8%AD%E0%B8%87%E0%B8%AB%E0%B8%A1%E0%B8%B5%E0%B9%80%E0%B8%99%E0%B8%A2-ButterBear-FC-61561214554227/?locale=th_TH\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/shorten",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"shorten"
+							]
+						}
+					},
+					"status": "Bad Request",
+					"code": 400,
+					"_postman_previewlanguage": null,
+					"header": [
+						{
+							"key": "X-Content-Type-Options",
+							"value": "nosniff"
+						},
+						{
+							"key": "X-XSS-Protection",
+							"value": "0"
+						},
+						{
+							"key": "Cache-Control",
+							"value": "no-cache, no-store, max-age=0, must-revalidate"
+						},
+						{
+							"key": "Pragma",
+							"value": "no-cache"
+						},
+						{
+							"key": "Expires",
+							"value": "0"
+						},
+						{
+							"key": "X-Frame-Options",
+							"value": "DENY"
+						},
+						{
+							"key": "Content-Type",
+							"value": "text/plain;charset=UTF-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "33"
+						},
+						{
+							"key": "Date",
+							"value": "Wed, 12 Nov 2025 09:50:45 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "close"
+						}
+					],
+					"cookie": [],
+					"body": "bad request : url format invalid."
 				}
 			]
 		},
