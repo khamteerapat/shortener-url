@@ -2,7 +2,6 @@ package com.kt.urlshortener.services.impl;
 
 import com.kt.urlshortener.repositories.LinksMappingRepository;
 import com.kt.urlshortener.services.RedirectService;
-import jakarta.persistence.NoResultException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
